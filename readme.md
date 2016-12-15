@@ -1,10 +1,13 @@
 # Videx - Video Explorer
 
-A multi-platform portable Video Explorer built on top of node webkit.
+A multi-platform portable Video Explorer built on top of electron.
+
+## Dependencies
+ - Operating System : Linux, Windows or OSX
+ - NPM installed in your machine
+ - Git is installed in your machine
 
 ## How to develop on linux
-Make sure you have npm on your machine.
-
 Clone the repo
 ```
 git clone git@bitbucket.org:emanmks/videx.git
@@ -22,8 +25,6 @@ To run and debug
 ```
 
 ## How to develop on windows
-Make sure you have npm on your machine.
-
 Clone the repo
 ```
 git clone git@bitbucket.org:emanmks/videx.git
