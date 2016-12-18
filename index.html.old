@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Videx</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/photon.css">
+
+    <!-- Javascript -->
+    <script src="js/menu.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="window">
+
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Videx - Video Explorer (0.0.1.a)</h1>
+
+        <div class="toolbar-actions">
+          <div class="btn-group">
+            <button class="btn btn-default">
+              <span class="icon icon-home"></span>
+            </button>
+            <button class="btn btn-default">
+              <span class="icon icon-folder"></span>
+            </button>
+            <button class="btn btn-default active">
+              <span class="icon icon-cloud"></span>
+            </button>
+          </div>
+
+          <button class="btn btn-default pull-right">
+            <span class="icon icon-cog"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="window-content">
+        <div class="pane-group">
+          <div class="pane pane-sm sidebar">
+            <ul class="list-group">
+              <li class="list-group-header">
+                <input class="form-control" type="text" placeholder="Y:">
+              </li>
+            </ul>
+            <nav class="nav-group">
+              <h5 class="nav-group-title">Directories</h5>
+              <span class="nav-group-item">
+                <span class="icon icon-folder"></span>
+                Hall A
+              </span>
+              <span class="nav-group-item">
+                <nav class="nav-group">
+                  <span class="nav-group-item">
+                    <span class="icon icon-folder"></span>
+                    10 Minutes
+                  </span>
+                  <span class="nav-group-item">
+                    <span class="icon icon-folder"></span>
+                    30 Minutes
+                  </span>
+                  <span class="nav-group-item active">
+                    <span class="icon icon-folder"></span>
+                    Full
+                  </span>
+                </nav>
+              </span>
+              <span class="nav-group-item">
+                <span class="icon icon-folder"></span>
+                Hall B
+              </span>
+              <span class="nav-group-item">
+                <span class="icon icon-folder"></span>
+                Hall C
+              </span>
+              <span class="nav-group-item">
+                <span class="icon icon-folder"></span>
+                Hall D
+              </span>
+            </nav>
+          </div>
+
+          <div class="pane">
+
+            <ul class="list-group">
+              <li class="list-group-item active">
+                <img class="img-rounded media-object pull-left" src="img/nyskyline01.jpg" width="32" height="32">
+                <div class="media-body">
+                  <strong>Video 1</strong>
+                  <p>Timestamp : 2016-11-01 00:00:00.87895T08</p>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="img-rounded media-object pull-left" src="img/nyskyline01.jpg" width="32" height="32">
+                <div class="media-body">
+                  <strong>Video 2</strong>
+                  <p>Timestamp : 2016-11-01 00:00:00.87895T08</p>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="img-rounded media-object pull-left" src="img/nyskyline01.jpg" width="32" height="32">
+                <div class="media-body">
+                  <strong>Video 3</strong>
+                  <p>Timestamp : 2016-11-01 00:00:00.87895T08</p>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="img-rounded media-object pull-left" src="img/nyskyline01.jpg" width="32" height="32">
+                <div class="media-body">
+                  <strong>Video 4</strong>
+                  <p>Timestamp : 2016-11-01 00:00:00.87895T08</p>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="img-rounded media-object pull-left" src="img/nyskyline01.jpg" width="32" height="32">
+                <div class="media-body">
+                  <strong>Video 5</strong>
+                  <p>Timestamp : 2016-11-01 00:00:00.87895T08</p>
+                </div>
+              </li>
+            </ul>
+
+            <table class="table-striped">
+              <thead>
+                <tr>
+                  <th>Duration</th>
+                  <th>Event</th>
+                  <th>Date Modified</th>
+                  <th>Author</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>01:00</td>
+                  <td>Opening Speech</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>20:00</td>
+                  <td>Closing Speech</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>40:00</td>
+                  <td>Another Speech</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>60:00</td>
+                  <td>Another Speech Again</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>1:10:00</td>
+                  <td>Just Another Speech</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>1:30:00</td>
+                  <td>Closing Speech</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+                <tr>
+                  <td>1:50:00</td>
+                  <td>Everyone leaving the hall</td>
+                  <td>01-11-2016 09:00</td>
+                  <td>Adib</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default">
+            <span class="icon icon-fast-backward"></span>
+          </button>
+
+          <input type="range">
+
+          <button class="btn btn-default">
+            <span class="icon icon-fast-forward"></span>
+          </button>
+
+          <div class="btn-group pull-right">
+            <button class="btn btn-default">
+              <span class="icon icon-play"></span>
+            </button>
+            <button class="btn btn-default">
+              <span class="icon icon-pause"></span>
+            </button>
+            <button class="btn btn-default active">
+              <span class="icon icon-stop"></span>
+            </button>
+            <button class="btn btn-default">
+              <span class="icon icon-mute"></span>
+            </button>
+            <button class="btn btn-default">
+              <span class="icon icon-sound"></span>
+            </button>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </body>
+</html>
