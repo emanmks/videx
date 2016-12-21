@@ -1,10 +1,144 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
         <title>Videx - Video Explorer (0.0.1-b)</title>
+
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="ionicons/css/ionicons.min.css">
+
+        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
     </head>
 
-    <body>
+    <body class="hold-transition skin-black sidebar-mini">
+        <div class="wrapper">
+            <!-- header -->
+            <header class="main-header">
+                <a href="#" class="logo">
+                    <span class="logo-mini"><b>A</b>LT</span>
+                    <span class="logo-lg"><b>Video</b>Explorere</span>
+                </a>
 
+                <nav class="navbar navbar-static-top">
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- header -->
+
+            <!-- sidebar aside -->
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <!-- base dir form -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                          <input type="text" name="base_dir" id="base_dir" class="form-control" placeholder="Y:">
+                              <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-folder"></i>
+                                </button>
+                              </span>
+                        </div>
+                    </form>
+                    <!-- base dir form -->
+
+                    <!-- sidebar menu -->
+                    <ul class="sidebar-menu" id="sidebar-menu">
+                        <li class="header" id="sidebar-header">NAVIGATION</li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Main Hall</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Mini Hall A</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Mini Hall B</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Mini Hall C</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- sidebar menu -->
+                </section>
+            </aside>
+            <!-- sidebar aside -->
+
+            <!-- content wrapper -->
+            <div class="content-wrapper">
+                <!-- content header -->
+                <section class="content-header">
+                    <h1>
+                        Videx - Video Explorer
+                        <small>Version 0.1.1-b</small>
+                    </h1>
+                </section>
+                <!-- content header -->
+
+                <!-- content workplace -->
+                <section class="content">
+                    
+                </section>
+                <!-- content workplace -->
+            </div>
+            <!-- content wrapper -->
+
+            <!-- footer -->
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 0.0.1-b
+                </div>
+                <strong>Copyright &copy; 2017 <a href="#">Adib Shahreen</a>.</strong> All rights
+                reserved.
+            </footer>
+            <!-- footer -->
+        </div>
+        <!-- wrapper -->
+
+        <script src="plugins/jQuery/jQuery-2.2.3.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="dist/js/app.min.js"></script>
     </body>
 </html>
