@@ -23,56 +23,75 @@ $(document).ready(function() {
     initMenu();
 
     var base_dir = $('[name=base_dir]').val();
-    load_directories(path.dirname(base_dir));
+    var directories = get_directories(base_dir);
+    show_directories(base_dir, directories);
 });
 
-function load_directories(base_dir) {
-    fs.readdir(base_dir, function(err, files) {
-        if (err) {
-            var html = '<li class="active">'+
-                        '<a href="#">'+
-                            '<i class="fa fa-ban"></i>'+
-                            '<span>Not Found</span>'+
-                        '</a>'+
-                    '</li>';
-            $('#sidebar-menu').append(html);
-            console.log(err);
-        } else {
-            console.log(files);
-            files.forEach( function (file) {
-                var html = '<li>'+
-                            '<a href="#">'+
-                                '<i class="fa fa-folder"></i>'+
-                                '<span>'+file+'</span>'+
-                            '</a>'+
-                        '</li>';
-                $('#sidebar-menu').append(html);
-            });
-        }
-    });
-}
-
-function is_directory(path) {
-    fs.stat(path, function(err, stats) {
-        if (err) {
-            return false;
-        } else {
-            return stats.isDirectory();
-        }
-    });
-}
-
-function contains_directory(path) {
-    fs.readdir(base_dir, function(err, files) {
-        if (err) {
-            return false;
-        }
-        file.forEach( function (file) {
-
+function show_directories(base_dir, directories) {
+    directories.forEach( function (directory) {
+        var subdirectories = get_directories(base_dir+'/'+directory);
+        var submenu = '<ul class="treeview-menu">';
+        subdirectories.forEach( function (dir) {
+            var full_subdir = base_dir+'/'+directory+'/'+dir;
+            submenu += '<li><a href="#" onclick="rload('+"'"+full_subdir+"'"+')"><i class="fa fa-folder"></i> '+dir+'</a></li>';
         });
+        submenu += '</ul>';
+        var html = '<li class="treeview">'+
+                    '<a href="#">'+
+                        '<i class="fa fa-folder"></i>'+
+                        '<span>'+directory+'</span>'+
+                    '</a>'+
+                    submenu +
+                '</li>';
+        $('#sidebar-menu').append(html);
     });
 }
 
-function is_daily_dir(path) {
-    console.log(path);
+function get_directories(base_dir) {
+    return fs.readdirSync(base_dir).filter(function(file) {
+        return fs.statSync(path.join(base_dir, file)).isDirectory();
+    });
+}
+
+function get_files(base_dir) {
+    return fs.readdirSync(base_dir).filter(function(file) {
+        return fs.statSync(path.join(base_dir, file)).isFile();
+    });
+}
+
+function rload(full_subdir) {
+    var directories = get_directories(full_subdir);
+    
+    $('#navtabs').html("");
+    $('#tab-content').html("");
+
+    for (var i = 0; i < directories.length; i++) {
+        var html = "";
+        if (i == 0) {
+            html += '<li class="active">';
+        } else {
+            html += '<li>';
+        }
+        html += '<a href="#'+directories[i]+'" data-toggle="tab">'+directories[i]+'</a>' +
+                '</li>';
+        $('#navtabs').append(html);
+
+        var html = '<div class="tab-pane active" id="'+directories[i]+'">';
+        var files = get_files(full_subdir+'/'+directories[i]);
+
+        html += '<div class="row">';
+        files.forEach( function (file) {
+            html += '<div class="col-sm-4">' +
+                        '<video width="320" height="240" controls>' +
+                            '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/mp4">' +
+                            '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/avi">' +
+                            'Your browser does not support the video tag.'+
+                        '</video>' +
+                    '</div>';
+        });
+        html += '</div>';
+
+        html += '</div>';
+        $('#tab-content').append(html);
+    }
 }

@@ -57,7 +57,7 @@
                     <!-- base dir form -->
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
-                          <input type="text" name="base_dir" id="base_dir" class="form-control" value="/home/eman/Private/Video/MainHall">
+                          <input type="text" name="base_dir" id="base_dir" class="form-control" value="/home/eman/Videos">
                               <span class="input-group-btn">
                                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-folder"></i>
                                 </button>
@@ -99,33 +99,9 @@
                 <!-- content workplace -->
                 <section class="content">
                     <div class="nav-tabs-custom">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#full-length" data-toggle="tab">Full Length</a></li>
-                            <li><a href="#thirty-length" data-toggle="tab">30 Minutes</a></li>
-                            <li><a href="#ten-length" data-toggle="tab">10 Minutes</a></li>
+                        <ul class="nav nav-tabs" id="navtabs">
                         </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="full-length">
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                    No video files Found
-                                </div>
-                            </div>
-                            <div class="tab-pane active" id="thirty-length">
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                    No video files Found
-                                </div>
-                            </div>
-                            <div class="tab-pane active" id="ten-length">
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                    No video files Found
-                                </div>
-                            </div>
+                        <div class="tab-content" id="tab-content">
                         </div>
                     </div>
                 </section>
