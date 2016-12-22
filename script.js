@@ -3,81 +3,69 @@ global.$ = $;
 const {remote} = require('electron');
 const {Menu, BrowserWindow, MenuItem, shell} = remote;
 
-var abar = require('address_bar');
-var folder_view = require('folder_view');
+var fs = require('fs');
 
 // append default actions to menu for OSX
 var initMenu = function () {
-  try {
-    var nativeMenuBar = new Menu();
-    if (process.platform == "darwin") {
-      nativeMenuBar.createMacBuiltin && nativeMenuBar.createMacBuiltin("FileExplorer");
+    try {
+        var nativeMenuBar = new Menu();
+        if (process.platform == "darwin") {
+            nativeMenuBar.createMacBuiltin && nativeMenuBar.createMacBuiltin("FileExplorer");
+        }
+    } catch (error) {
+        console.error(error);
+        setTimeout(function () { throw error }, 1);
     }
-  } catch (error) {
-    console.error(error);
-    setTimeout(function () { throw error }, 1);
-  }
 };
 
-var aboutWindow = null;
-var App = {
-  // show "about" window
-  about: function () {
-    var params = {toolbar: false, resizable: false, show: true, height: 150, width: 400};
-    aboutWindow = new BrowserWindow(params);
-    aboutWindow.loadURL('file://' + __dirname + '/about.html');
-  },
-
-  // change folder for sidebar links
-  cd: function (anchor) {
-    anchor = $(anchor);
-
-    $('#sidebar li').removeClass('active');
-    $('#sidebar i').removeClass('icon-white');
-
-    anchor.closest('li').addClass('active');
-    anchor.find('i').addClass('icon-white');
-
-    this.setPath(anchor.attr('nw-path'));
-  },
-
-  // set path for file explorer
-  setPath: function (path) {
-    if (path.indexOf('~') == 0) {
-      path = path.replace('~', process.env['HOME']);
-    }
-    this.folder.open(path);
-    this.addressbar.set(path);
-  }
-};
+let dirs = ['...'];
 
 $(document).ready(function() {
-  initMenu();
+    initMenu();
 
-  var folder = new folder_view.Folder($('#files'));
-  var addressbar = new abar.AddressBar($('#addressbar'));
-
-  folder.open(process.cwd());
-  addressbar.set(process.cwd());
-
-  App.folder = folder;
-  App.addressbar = addressbar;
-
-  folder.on('navigate', function(dir, mime) {
-    if (mime.type == 'folder') {
-      addressbar.enter(mime);
-    } else {
-      shell.openItem(mime.path);
-    }
-  });
-
-  addressbar.on('navigate', function(dir) {
-    folder.open(dir);
-  });
-
-  // sidebar favorites
-  $('[nw-path]').bind('click', function (event) {
-    event.preventDefault();
-    App.cd(this);
-  });
+    var base_dir = $('[name=base_dir]').val();
+    load_directories(base_dir);
 });
+
+function load_directories(base_dir) {
+    var html = "";
+    fs.readdir(base_dir, function(err, files) {
+        if (err) {
+            html += '<li>'+
+                        '<a href="#">'+
+                            '<i class="fa fa-folder"></i>'+
+                            '<span>Not Found</span>'+
+                        '</a>'+
+                    '</li>';
+        }
+        files.forEach( function (file) {
+            html = '<li>'+
+                        '<a href="#">'+
+                            '<i class="fa fa-folder"></i>'+
+                            '<span>'+file+'</span>'+
+                        '</a>'+
+                    '</li>';
+        });
+    });
+    $('#sidebar-menu').append(html);
+}
+
+function is_directory(path) {
+    fs.stat(path, function(err, stats) {
+        if (err) {
+            return console.error(err);
+        }
+        stats.isDirectory();
+    });
+}
+
+function contains_directory(path) {
+    fs.readdir(base_dir, function(err, files) {
+        if (err) {
+            return false;
+        }
+        file.forEach( function (file) {
+
+        });
+    });
+}

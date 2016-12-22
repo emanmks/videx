@@ -15,6 +15,15 @@
         <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
         <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+
+        <!-- Insert this line above script imports  -->
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="dist/js/app.min.js"></script>
+        <script src="script.js"></script>
+        <!-- Insert this line after script imports -->
+        <script>if (window.module) module = window.module;</script>
     </head>
 
     <body class="hold-transition skin-black sidebar-mini">
@@ -48,7 +57,7 @@
                     <!-- base dir form -->
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
-                          <input type="text" name="base_dir" id="base_dir" class="form-control" placeholder="Y:">
+                          <input type="text" name="base_dir" id="base_dir" class="form-control" value="/home/eman/Videos">
                               <span class="input-group-btn">
                                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-folder"></i>
                                 </button>
@@ -60,17 +69,13 @@
                     <!-- sidebar menu -->
                     <ul class="sidebar-menu" id="sidebar-menu">
                         <li class="header" id="sidebar-header">NAVIGATION</li>
-                        <li class="treeview">
+                        <li class="active">
                             <a href="#">
-                                <i class="fa fa-folder"></i>
-                                <span>Main Hall</span>
+                                <i class="fa fa-ban"></i>
+                                <span>Not Found</span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
-                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
-                            </ul>
                         </li>
-                        <li class="treeview">
+                        <!--<li class="treeview">
                             <a href="#">
                                 <i class="fa fa-folder"></i>
                                 <span>Mini Hall A</span>
@@ -79,27 +84,7 @@
                                 <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
                                 <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
                             </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-folder"></i>
-                                <span>Mini Hall B</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
-                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-folder"></i>
-                                <span>Mini Hall C</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-folder"></i> 20-12-2016</a></li>
-                                <li><a href="#"><i class="fa fa-folder"></i> 21-12-2016</a></li>
-                            </ul>
-                        </li>
+                        </li>-->
                     </ul>
                     <!-- sidebar menu -->
                 </section>
@@ -166,12 +151,5 @@
         </div>
         <!-- wrapper -->
 
-        <!-- Insert this line above script imports  -->
-        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-        <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="dist/js/app.min.js"></script>
-        <!-- Insert this line after script imports -->
-        <script>if (window.module) module = window.module;</script>
     </body>
 </html>
