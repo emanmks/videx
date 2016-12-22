@@ -43,5 +43,18 @@ To run and debug
 .\node_modules\.bin\electron .
 ```
 
-## How to generate package
-Will update this later
+## How to deploy
+For the asier way, please install electron-packager-interactive first.
+```
+npm install -g electron-packager-interactive
+```
+This node module will help you to build executable file interactively.
+
+### Usage
+Just
+```
+electron-packager-interactive
+or
+epi
+```
+complete step by step to create the electron-packager settings and wait for the packages to be created.
