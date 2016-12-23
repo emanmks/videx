@@ -2,7 +2,7 @@
 
 A multi-platform portable Video Explorer built on top of electron.
 
-![Videx2016-12-23 00:58:28.png](https://bitbucket.org/repo/qdb7dj/images/2287600459-Videx2016-12-23%2000:58:28.png)
+![Videx2016-12-23 00:58:28.png](https://bitbucket.org/repo/qdb7dj/images/98512012-Videx2016-12-23%2000:58:28.png)
 
 ## Dependencies
  - Operating System : Linux, Windows or OSX
