@@ -25,7 +25,34 @@ $(document).ready(function() {
     var base_dir = $('[name=base_dir]').val();
     var directories = get_directories(base_dir);
     show_directories(base_dir, directories);
+
+    $(".video").hover(function () {
+        $(this).children("video")[0].play();
+    }, function () {
+        var el = $(this).children("video")[0];
+        el.pause();
+        el.currentTime = 0;
+    });
+
+    $("#base_dir").keypress(function(e) {
+        if(e.which == 13) {
+            reload_base_dir();
+        }
+    });
+
 });
+
+function reload_base_dir() {
+    $('#sidebar-menu').html("");
+    $('#sidebar-menu').append('<li class="header" id="sidebar-header">NAVIGATION</li>');
+    
+    $('#navtabs').html("");
+    $('#tab-content').html("");
+    
+    var base_dir = $('[name=base_dir]').val();
+    var directories = get_directories(base_dir);
+    show_directories(base_dir, directories);
+}
 
 function show_directories(base_dir, directories) {
     directories.forEach( function (directory) {
@@ -81,7 +108,7 @@ function rload(full_subdir) {
 
         html += '<div class="row">';
         files.forEach( function (file) {
-            html += '<div class="col-sm-4">' +
+            html += '<div class="col-sm-4 video">' +
                         '<video width="320" height="240" controls>' +
                             '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/mp4">' +
                             '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/avi">' +

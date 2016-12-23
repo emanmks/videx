@@ -7,12 +7,8 @@ let win
 
 function createWindow() {
     win = new BrowserWindow({
-        width:800, 
-        height:600,
-        'min-width': 500,
-        'min-height': 200,
-        'accept-first-mouse': true,
-        'title-bar-style': 'hidden'
+        width:1024, 
+        height:768
     })
 
     win.loadURL(url.format({
@@ -21,7 +17,7 @@ function createWindow() {
         slashes: true
     }))
 
-    win.webContents.openDevTools()
+    //win.webContents.openDevTools()
 
     win.on('closed', () => {
         win = null
