@@ -37,6 +37,7 @@ $(document).ready(function() {
     $("#base_dir").keypress(function(e) {
         if(e.which == 13) {
             reload_base_dir();
+            return false;
         }
     });
 
