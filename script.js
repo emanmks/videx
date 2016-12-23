@@ -75,13 +75,13 @@ function show_directories(base_dir, directories) {
 }
 
 function get_directories(base_dir) {
-    return fs.readdirSync(base_dir).filter(function(file) {
+    return fs.readdirSync(path.normalize(base_dir)).filter(function(file) {
         return fs.statSync(path.join(base_dir, file)).isDirectory();
     });
 }
 
 function get_files(base_dir) {
-    return fs.readdirSync(base_dir).filter(function(file) {
+    return fs.readdirSync(path.normalize(base_dir)).filter(function(file) {
         return fs.statSync(path.join(base_dir, file)).isFile();
     });
 }
