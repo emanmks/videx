@@ -58,6 +58,8 @@ function reload_base_dir() {
     var base_dir = $('[name=base_dir]').val();
     var directories = get_directories(base_dir);
     show_directories(base_dir, directories);
+
+    $("#breadcrumb").html("<i class='fa fa-folder'></i> "+base_dir);
 }
 
 function show_directories(base_dir, directories) {
@@ -78,6 +80,8 @@ function show_directories(base_dir, directories) {
                 '</li>';
         $('#sidebar-menu').append(html);
     });
+
+    $("#breadcrumb").html("<i class='fa fa-folder'></i> "+base_dir);
 }
 
 function get_directories(base_dir) {
@@ -138,6 +142,8 @@ function rload(full_subdir) {
 
         html += '</div>';
         $('#tab-content').append(html);
+
+        $("#breadcrumb").html("<i class='fa fa-folder'></i> "+full_subdir);
     }
 }
 
@@ -160,6 +166,8 @@ function show_player(video) {
     $("#player").html(html);
 
     load_stories(video);
+
+    $("#breadcrumb").html("<i class='fa fa-film'></i> "+video);
 }
 
 function load_stories(video) {
