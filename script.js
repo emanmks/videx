@@ -5,6 +5,8 @@ const {Menu, BrowserWindow, MenuItem, shell} = remote;
 
 var fs = require('fs');
 var path = require('path');
+var rem = require('electron').remote;
+var dialog = rem.dialog;
 
 // append default actions to menu for OSX
 var initMenu = function () {
@@ -46,9 +48,12 @@ $(document).ready(function() {
 function reload_base_dir() {
     $('#sidebar-menu').html("");
     $('#sidebar-menu').append('<li class="header" id="sidebar-header">NAVIGATION</li>');
-    
+
     $('#navtabs').html("");
     $('#tab-content').html("");
+
+    $('#navtabs').show();
+    $('#tab-content').show();
     
     var base_dir = $('[name=base_dir]').val();
     var directories = get_directories(base_dir);
@@ -89,9 +94,15 @@ function get_files(base_dir) {
 
 function rload(full_subdir) {
     var directories = get_directories(full_subdir);
+
+    $("#navtabs").show();
+    $("#tab-content").show();
     
     $('#navtabs').html("");
     $('#tab-content').html("");
+
+    $("#player").hide();
+    $("#story").hide();
 
     for (var i = 0; i < directories.length; i++) {
         var html = "";
@@ -109,17 +120,120 @@ function rload(full_subdir) {
 
         html += '<div class="row">';
         files.forEach( function (file) {
-            html += '<div class="col-sm-4 video">' +
-                        '<video width="320" height="240" controls>' +
-                            '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/mp4">' +
-                            '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/avi">' +
-                            'Your browser does not support the video tag.'+
-                        '</video>' +
-                    '</div>';
+            var full_path = full_subdir+'/'+directories[i]+'/'+file;
+            var extension = full_path.split('.').pop();
+
+            if(extension == 'mp4' || extension == 'avi') {
+                html += '<div class="col-sm-4">' +
+                            '<video width="320" height="240" controls>' +
+                                '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/mp4">' +
+                                '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/avi">' +
+                                'Your browser does not support the video tag.'+
+                            '</video>' +
+                            '<button class="btn btn-info btn-xs" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video"></i> Details</button>'+
+                        '</div>';
+            }
         });
         html += '</div>';
 
         html += '</div>';
         $('#tab-content').append(html);
     }
+}
+
+function show_player(video) {
+    $("#navtabs").hide();
+    $("#tab-content").hide();
+
+    $("#player").show();
+    $("#story").show();
+
+    $("#player").html("");
+    $("#story").html("");
+
+    var html = '<video width="100%" controls>' +
+                    '<source src="'+video+'" type="video/mp4">' +
+                    '<source src="'+video+'" type="video/avi">' +
+                    'Your browser does not support the video tag.'+
+                '</video>';
+    html += '<input type="hidden" id="video_full_path" value="'+video+'">';
+    $("#player").html(html);
+
+    load_stories(video);
+}
+
+function load_stories(video) {
+    var storyfile = path.normalize(video.substr(0, video.lastIndexOf(".")) + ".json");
+    path.normalize(storyfile);
+
+    var html = '<button class="btn btn-xs btn-info" onclick="open_dialog()"><i class="fa fa-file"></i> Load Storyline (CSV)</button>';
+
+    if(fs.existsSync(storyfile)) {
+        var stories = fs.readFileSync(storyfile);
+        stories.toString();
+        stories = JSON.parse(stories);
+
+        
+        html += '<ul class="list-group">';
+        stories.forEach(function (story) {
+            html += '<li class="list-group-item">' +
+                        '<span class="badge bg-blue">'+story.timeline+'</span>' +
+                        story.story +
+                    '</li>';
+        });
+    }
+    html += '</ul>';
+
+    $("#story").html(html);
+}
+
+function open_dialog() {
+    dialog.showOpenDialog(function (file_names) {
+        // fileNames is an array that contains all the selected
+       if(file_names){
+            var extension = file_names[0].split('.').pop();
+            if (extension != 'csv') {
+                alert("Invalid csv file");
+            }
+            proceed_csv(file_names[0]);
+       }
+    });
+}
+
+function proceed_csv(filepath) {
+    fs.readFile(path.normalize(filepath), 'utf-8', function (err, data) {
+        if(err){
+            alert("An error ocurred reading the file :" + err.message);
+            return;
+        }
+        var stories = [];
+        data.split("\n").forEach( function (story) {
+            story = story.split(",");
+            var line = {
+                "timeline":story[0],
+                "story":story[1]
+            };
+            stories.push(line);
+        });
+        stories.shift();
+        stories.pop();
+        write_storyline(stories);
+    });
+}
+
+function write_storyline (stories) {
+    var json_stories = JSON.stringify(stories);
+    var video_full_path = $("#video_full_path").val();
+    var storyfile = path.normalize(video_full_path.substr(0, video_full_path.lastIndexOf(".")) + ".json");
+    
+    fs.writeFile(storyfile, json_stories, function (err) {
+        if(err) {
+            alert("An error ocurred updating the file"+ err.message);
+            console.log(err);
+            return;
+        }
+                        
+        alert("The file has been succesfully submitted");
+        show_player(video_full_path);
+     });
 }
