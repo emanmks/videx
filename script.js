@@ -65,12 +65,24 @@ function reload_base_dir() {
 function show_directories(base_dir, directories) {
     directories.forEach( function (directory) {
         var subdirectories = get_directories(base_dir+'/'+directory);
+
         var submenu = '<ul class="treeview-menu">';
         subdirectories.forEach( function (dir) {
             var full_subdir = base_dir+'/'+directory+'/'+dir;
-            submenu += '<li><a href="#" onclick="rload('+"'"+full_subdir+"'"+')"><i class="fa fa-folder"></i> '+dir+'</a></li>';
+            var  sub_dirs = get_directories(full_subdir);
+
+            var sub_submenu = '<ul class="treeview-menu">';
+            sub_dirs.forEach( function (sub_dir) {
+                var full_path_sub = full_subdir+'/'+sub_dir;
+                sub_submenu += '<li><a href="#" onclick="rload('+"'"+full_path_sub+"'"+')"><i class="fa fa-folder"></i> '+sub_dir+'</a></li>';
+            });
+            sub_submenu += '</ul>';
+
+            submenu += '<li><a href="#" ><i class="fa fa-folder"></i> '+dir+'</a>'+sub_submenu+'</li>';
         });
+
         submenu += '</ul>';
+
         var html = '<li class="treeview">'+
                     '<a href="#">'+
                         '<i class="fa fa-folder"></i>'+
@@ -157,7 +169,7 @@ function show_player(video) {
     $("#player").html("");
     $("#story").html("");
 
-    var html = '<video width="100%" controls>' +
+    var html = '<video width="100%" id="video_player" controls>' +
                     '<source src="'+video+'" type="video/mp4">' +
                     '<source src="'+video+'" type="video/avi">' +
                     'Your browser does not support the video tag.'+
@@ -185,7 +197,7 @@ function load_stories(video) {
         html += '<ul class="list-group">';
         stories.forEach(function (story) {
             html += '<li class="list-group-item">' +
-                        '<span class="badge bg-blue">'+story.timeline+'</span>' +
+                        '<span class="badge bg-blue"><a href="#" onclick="update_track('+"'"+story.timeline+"'"+')">'+story.timeline+'</a></span>' +
                         story.story +
                     '</li>';
         });
@@ -204,6 +216,16 @@ function open_dialog() {
                 alert("Invalid csv file");
             }
             proceed_csv(file_names[0]);
+       }
+    });
+}
+
+function open_dir_dialog() {
+    dialog.showOpenDialog({properties:['openDirectory']}, function (dir_names) {
+        // fileNames is an array that contains all the selected
+       if(dir_names) {
+            $("#base_dir").val(dir_names[0]);
+            reload_base_dir();
        }
     });
 }
@@ -244,4 +266,26 @@ function write_storyline (stories) {
         alert("The file has been succesfully submitted");
         show_player(video_full_path);
      });
+}
+
+function update_track(timeline) {
+    document.getElementById("video_player").currentTime = extract_seconds(timeline);
+}
+
+function extract_seconds(timeline) {
+    var components = timeline.split(":");
+    var result = 0;
+
+    if (components.length == 3) {
+        var hour = parseInt(components[0]) * 3600;
+        var minute = parseInt(components[1]) * 60;
+        result = hour + minute + parseInt(components[2]);
+    } else if (components.length == 2) {
+        var minute = parseInt(components[0]) * 60;
+        result = minute + parseInt(components[1]);
+    } else {
+        result = parseInt(components[0]);
+    }
+
+    return result;
 }
