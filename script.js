@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var rem = require('electron').remote;
 var dialog = rem.dialog;
+var ffmpeg = require('ffmpeg');
 
 // append default actions to menu for OSX
 var initMenu = function () {
@@ -139,14 +140,13 @@ function rload(full_subdir) {
             var full_path = full_subdir+'/'+directories[i]+'/'+file;
             var extension = full_path.split('.').pop();
 
-            if(extension == 'mp4' || extension == 'avi') {
+            if (extension == 'mp4' || extension == 'avi') {
                 html += '<div class="col-sm-4">' +
                             '<video width="320" height="240" controls>' +
-                                '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/mp4">' +
-                                '<source src="'+full_subdir+'/'+directories[i]+'/'+file+'" type="video/avi">' +
-                                'Your browser does not support the video tag.'+
+                                '<source src="'+full_path+'" type="video/mp4">' +
+                                '<source src="'+full_path+'" type="video/avi">' +
                             '</video>' +
-                            '<button class="btn btn-info btn-xs" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video"></i> Details</button>'+
+                            '<button class="btn btn-info btn-xs" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video"></i> Details</button>' +
                         '</div>';
             }
         });
@@ -169,11 +169,29 @@ function show_player(video) {
     $("#player").html("");
     $("#story").html("");
 
+    var extension = video.split('.').pop();
+    var newmp4 = "";
+
+    if (extension == 'avi') {
+        newmp4 = path.normalize(video.substr(0, video.lastIndexOf(".")) + ".mp4");
+        var process = new ffmpeg(video);
+        process.then( function (video) {
+            video.save(newmp4, function (err, file) {
+                if (!err) {
+                    console.log("File : "+file);
+                } else {
+                    console.log(file);
+                }
+            });
+        });
+    }
+
     var html = '<video width="100%" id="video_player" controls>' +
                     '<source src="'+video+'" type="video/mp4">' +
                     '<source src="'+video+'" type="video/avi">' +
                     'Your browser does not support the video tag.'+
                 '</video>';
+
     html += '<input type="hidden" id="video_full_path" value="'+video+'">';
     $("#player").html(html);
 
@@ -221,12 +239,13 @@ function open_dialog() {
 }
 
 function open_dir_dialog() {
-    dialog.showOpenDialog({properties:['openDirectory']}, function (dir_names) {
+    dialog.showOpenDialog({properties:['openDirectory']}, function (dir_name) {
         // fileNames is an array that contains all the selected
-       if(dir_names) {
-            $("#base_dir").val(dir_names[0]);
+        console.log(dir_name);
+       /**if(dir_name) {
+            $("#base_dir").val(dir_name);
             reload_base_dir();
-       }
+       }*/
     });
 }
 
