@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var rem = require('electron').remote;
 var dialog = rem.dialog;
-var ffmpeg = require('ffmpeg');
+var ffmpeg = require('fluent-ffmpeg');
 
 // append default actions to menu for OSX
 var initMenu = function () {
@@ -140,7 +140,7 @@ function rload(full_subdir) {
             var full_path = full_subdir+'/'+directories[i]+'/'+file;
             var extension = full_path.split('.').pop();
 
-            if (extension == 'mp4' || extension == 'avi') {
+            if (extension == 'mp4' || (extension == 'avi' && !has_mp4(full_path))) {
                 html += '<div class="col-sm-4">' +
                             '<video width="320" height="240" controls>' +
                                 '<source src="'+full_path+'" type="video/mp4">' +
@@ -159,6 +159,11 @@ function rload(full_subdir) {
     }
 }
 
+function has_mp4(video) {
+    var mp4file = path.normalize(video.substr(0, video.lastIndexOf(".")) + ".mp4");
+    return fs.existsSync(mp4file) ? true : false;
+}
+
 function show_player(video) {
     $("#navtabs").hide();
     $("#tab-content").hide();
@@ -170,29 +175,22 @@ function show_player(video) {
     $("#story").html("");
 
     var extension = video.split('.').pop();
-    var newmp4 = "";
 
     if (extension == 'avi') {
-        newmp4 = path.normalize(video.substr(0, video.lastIndexOf(".")) + ".mp4");
-        var process = new ffmpeg(video);
-        process.then( function (video) {
-            video.save(newmp4, function (err, file) {
-                if (!err) {
-                    console.log("File : "+file);
-                } else {
-                    console.log(file);
-                }
-            });
-        });
+        var mp4file = path.normalize(video.substr(0, video.lastIndexOf(".")) + ".mp4");
+        ffmpeg(video).format('mp4').save(mp4file);
+
+        var html = '<video width="100%" id="video_player" controls>' +
+                '<source src="'+mp4file+'" type="video/mp4">' +
+                '</video>' +
+                '<input type="hidden" id="video_full_path" value="'+mp4file+'">';
+    } else {
+        var html = '<video width="100%" id="video_player" controls>' +
+                '<source src="'+video+'" type="video/mp4">' +
+                '</video>' +
+                '<input type="hidden" id="video_full_path" value="'+video+'">';
     }
 
-    var html = '<video width="100%" id="video_player" controls>' +
-                    '<source src="'+video+'" type="video/mp4">' +
-                    '<source src="'+video+'" type="video/avi">' +
-                    'Your browser does not support the video tag.'+
-                '</video>';
-
-    html += '<input type="hidden" id="video_full_path" value="'+video+'">';
     $("#player").html(html);
 
     load_stories(video);
