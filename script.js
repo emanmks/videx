@@ -64,43 +64,49 @@ function reload_base_dir() {
 }
 
 function show_directories(base_dir, directories) {
-    directories.forEach( function (directory) {
-        var subdirectories = get_directories(base_dir+'/'+directory);
+    if (directories) {
+        directories.forEach( function (directory) {
+            var subdirectories = get_directories(base_dir+'/'+directory);
 
-        var submenu = '<ul class="treeview-menu">';
-        subdirectories.forEach( function (dir) {
-            var full_subdir = base_dir+'/'+directory+'/'+dir;
-            var  sub_dirs = get_directories(full_subdir);
+            var submenu = '<ul class="treeview-menu">';
+            subdirectories.forEach( function (dir) {
+                var full_subdir = base_dir+'/'+directory+'/'+dir;
+                var  sub_dirs = get_directories(full_subdir);
 
-            var sub_submenu = '<ul class="treeview-menu">';
-            sub_dirs.forEach( function (sub_dir) {
-                var full_path_sub = full_subdir+'/'+sub_dir;
-                sub_submenu += '<li><a href="#" onclick="rload('+"'"+full_path_sub+"'"+')"><i class="fa fa-folder"></i> '+sub_dir+'</a></li>';
+                var sub_submenu = '<ul class="treeview-menu">';
+                sub_dirs.forEach( function (sub_dir) {
+                    var full_path_sub = full_subdir+'/'+sub_dir;
+                    sub_submenu += '<li><a href="#" onclick="rload('+"'"+full_path_sub+"'"+')"><i class="fa fa-folder"></i> '+sub_dir+'</a></li>';
+                });
+                sub_submenu += '</ul>';
+
+                submenu += '<li><a href="#" ><i class="fa fa-folder"></i> '+dir+'</a>'+sub_submenu+'</li>';
             });
-            sub_submenu += '</ul>';
 
-            submenu += '<li><a href="#" ><i class="fa fa-folder"></i> '+dir+'</a>'+sub_submenu+'</li>';
+            submenu += '</ul>';
+
+            var html = '<li class="treeview">'+
+                        '<a href="#">'+
+                            '<i class="fa fa-folder"></i>'+
+                            '<span>'+directory+'</span>'+
+                        '</a>'+
+                        submenu +
+                    '</li>';
+            $('#sidebar-menu').append(html);
         });
-
-        submenu += '</ul>';
-
-        var html = '<li class="treeview">'+
-                    '<a href="#">'+
-                        '<i class="fa fa-folder"></i>'+
-                        '<span>'+directory+'</span>'+
-                    '</a>'+
-                    submenu +
-                '</li>';
-        $('#sidebar-menu').append(html);
-    });
+    }
 
     $("#breadcrumb").html("<i class='fa fa-folder'></i> "+base_dir);
 }
 
 function get_directories(base_dir) {
-    return fs.readdirSync(path.normalize(base_dir)).filter(function(file) {
-        return fs.statSync(path.join(base_dir, file)).isDirectory();
-    });
+    if(fs.existsSync(base_dir)) {
+        return fs.readdirSync(path.normalize(base_dir)).filter(function(file) {
+            return fs.statSync(path.join(base_dir, file)).isDirectory();
+        });
+    } else {
+        return null;
+    }
 }
 
 function get_files(base_dir) {
@@ -239,11 +245,10 @@ function open_dialog() {
 function open_dir_dialog() {
     dialog.showOpenDialog({properties:['openDirectory']}, function (dir_name) {
         // fileNames is an array that contains all the selected
-        console.log(dir_name);
-       /**if(dir_name) {
-            $("#base_dir").val(dir_name);
+       if(dir_name) {
+            $("#base_dir").val(dir_name[0]);
             reload_base_dir();
-       }*/
+       }
     });
 }
 
