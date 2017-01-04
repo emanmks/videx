@@ -152,7 +152,7 @@ function rload(full_subdir) {
                                 '<source src="'+full_path+'" type="video/mp4">' +
                                 '<source src="'+full_path+'" type="video/avi">' +
                             '</video>' +
-                            '<button class="btn btn-info btn-xs" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video"></i> Details</button>' +
+                            '<button class="btn btn-primary btn-flat" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video-camera"></i>  '+full_path.split("/").pop()+'</button>' +
                         '</div>';
             }
         });
