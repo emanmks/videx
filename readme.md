@@ -61,6 +61,11 @@ Now after finishing installation of ffmpeg, now you need to install nodejs fluen
 npm install fluent-ffmpeg
 ```
 
+## Dependency for Searching Features
+```
+npm install find-in-files
+```
+
 ## How to deploy
 For the asier way, please install electron-packager-interactive first.
 ```

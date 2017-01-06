@@ -8,6 +8,7 @@ var path = require('path');
 var rem = require('electron').remote;
 var dialog = rem.dialog;
 var ffmpeg = require('fluent-ffmpeg');
+var findInFiles = require('find-in-files');
 
 // append default actions to menu for OSX
 var initMenu = function () {
@@ -40,6 +41,13 @@ $(document).ready(function() {
     $("#base_dir").keypress(function(e) {
         if(e.which == 13) {
             reload_base_dir();
+            return false;
+        }
+    });
+
+    $("#navbar-search-input").keypress(function(e) {
+        if (e.which == 13) {
+            find_in_files();
             return false;
         }
     });
@@ -160,9 +168,8 @@ function rload(full_subdir) {
 
         html += '</div>';
         $('#tab-content').append(html);
-
-        $("#breadcrumb").html("<i class='fa fa-folder'></i> "+full_subdir);
     }
+    $("#breadcrumb").html("<i class='fa fa-folder'></i> "+full_subdir);
 }
 
 function has_mp4(video) {
@@ -310,4 +317,44 @@ function extract_seconds(timeline) {
     }
 
     return result;
+}
+
+function find_in_files() {
+    var param = $("#navbar-search-input").val();
+    var base_dir = $("#base_dir").val();
+
+    if(fs.existsSync(base_dir)) {
+        $("#navtabs").show();
+        $("#tab-content").show();
+        
+        $('#navtabs').html("");
+        $('#tab-content').html("");
+
+        $("#player").hide();
+        $("#story").hide();
+
+        $("#navtabs").html("<li class='active'><a href='#search-result' data-toggle='tab'>Search Result</a></li>");
+
+        findInFiles.find(param, base_dir, '.json$')
+            .then(function (results) {
+                var html = '<div class="tab-pane active" id="search-result">';
+                html += '<div class="row">';
+
+                for(var result in results) {
+                    var res = results[result];
+                    var video = path.normalize(result.substr(0, result.lastIndexOf(".")) + ".mp4");
+                    html += '<div class="col-sm-4">' +
+                                '<video width="320" height="240" controls>' +
+                                    '<source src="'+video+'" type="video/mp4">' +
+                                    '<source src="'+video+'" type="video/avi">' +
+                                '</video>' +
+                                '<button class="btn btn-primary btn-flat" onclick="show_player('+"'"+video+"'"+')"><i class="fa fa-video-camera"></i>  '+video.split("/").pop()+'</button>' +
+                                '<p><small><strong class="text-danger">'+ res.count +'</strong> times in <small class="text-primary">'+video.replace(base_dir+"/", "")+'</small></small></p>' +
+                            '</div>';
+                }
+
+                html += '</div></div>';
+                $("#tab-content").append(html);
+            });
+    }
 }
