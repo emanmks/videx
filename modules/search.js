@@ -2,7 +2,7 @@ function find_in_files() {
     var param = $("#navbar-search-input").val();
     var base_dir = $("#base_dir").val();
 
-    if(fs.existsSync(base_dir)) {
+    if(fs.existsSync(path.normalize(base_dir))) {
         $("#navtabs").show();
         $("#tab-content").show();
         
@@ -14,7 +14,7 @@ function find_in_files() {
 
         $("#navtabs").html("<li class='active'><a href='#search-result' data-toggle='tab'>Search Result</a></li>");
 
-        findInFiles.find(param, base_dir, '.json$')
+        findInFiles.find(param, path.normalize(base_dir), '.json$')
             .then(function (results) {
                 var html = '<div class="tab-pane active" id="search-result">';
                 html += '<div class="row">';
