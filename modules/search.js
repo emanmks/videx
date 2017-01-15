@@ -21,17 +21,17 @@ function find_in_files() {
 
                 for(var result in results) {
                     var res = results[result];
-                    var video = path.normalize(result.substr(0, result.lastIndexOf(".")) + ".mp4");
+                    var play = path.normalize(result.substr(0, result.lastIndexOf(".")) + ".mp4");
+                    var video = result.substr(0, result.lastIndexOf(".")) + ".mp4";
                     html += '<div class="col-sm-4">' +
                                 '<video width="320" height="240" controls>' +
-                                    '<source src="'+video+'" type="video/mp4">' +
-                                    '<source src="'+video+'" type="video/avi">' +
+                                    '<source src="'+play+'" type="video/mp4">' +
+                                    '<source src="'+play+'" type="video/avi">' +
                                 '</video>' +
-                                '<button class="btn btn-primary btn-flat" onclick="show_player('+"'"+video+"'"+')"><i class="fa fa-video-camera"></i>  '+video.split("/").pop()+'</button>' +
-                                '<p><small><strong class="text-danger">'+ res.count +'</strong> times in <small class="text-primary">'+video.replace(base_dir+"/", "")+'</small></small></p>' +
+                                '<button class="btn btn-primary btn-flat" onclick="show_player('+"'"+video+"'"+')"><i class="fa fa-video-camera"></i>  '+video.split("\\").pop()+'</button>' +
+                                '<p><small><strong class="text-danger">'+ res.count +'</strong> times in <small class="text-primary">'+video.replace(base_dir+"\\", "")+'</small></small></p>' +
                             '</div>';
                 }
-
                 html += '</div></div>';
                 $("#tab-content").append(html);
             });
