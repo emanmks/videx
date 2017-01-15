@@ -109,10 +109,10 @@ function rload(full_subdir) {
             var extension = full_path.split('.').pop();
 
             if (extension == 'mp4' || (extension == 'avi' && !has_mp4(full_path))) {
-                html += '<div class="col-sm-4">' +
-                            '<video width="320" height="240" tabindex="0" controls>' +
+                html += '<div class="col-sm-4" tabindex="0" id="'+full_path+'">' +
+                            '<video width="320" height="240"  controls>' +
                                 '<source src="'+full_path+'" type="video/mp4">' +
-                                '<source src="'+full_path+'" type="video/avi">' +
+                                '<source src="'+full_path+'" type="video/webm">' +
                             '</video>' +
                             '<button class="btn btn-primary btn-flat" onclick="show_player('+"'"+full_path+"'"+')"><i class="fa fa-video-camera"></i>  '+full_path.split("/").pop()+'</button>' +
                         '</div>';
@@ -124,6 +124,8 @@ function rload(full_subdir) {
         $('#tab-content').append(html);
     }
     $("#breadcrumb").html("<i class='fa fa-folder'></i> "+full_subdir);
+
+    $(".col-sm-4").first().focus();
 }
 
 function has_mp4(video) {
@@ -149,11 +151,13 @@ function show_player(video) {
 
         var html = '<video width="100%" id="video_player" tabindex="0" controls>' +
                 '<source src="'+mp4file+'" type="video/mp4">' +
+                '<source src="'+mp4file+'" type="video/webm">' +
                 '</video>' +
                 '<input type="hidden" id="video_full_path" value="'+mp4file+'">';
     } else {
         var html = '<video width="100%" id="video_player" tabindex="0" controls>' +
                 '<source src="'+video+'" type="video/mp4">' +
+                '<source src="'+video+'" type="video/webm">' +
                 '</video>' +
                 '<input type="hidden" id="video_full_path" value="'+video+'">';
     }
